@@ -214,10 +214,23 @@ async def random_function(ctx: SlashContext, media_type: str):
     await ctx.defer()
 
     random_id = db.select_random_simkl_id(media_type)
+    results = db.get_to_watch_owner_data(media_type, random_id)
+    user_id, added_at = results[0]
     media = await simkl.id_to_object(media_type, random_id)
     embed = create_preview_embed(media, 0xfaff00)
-    embed.fields = (embed.fields +
-                    [{"name": "ㅤ", "value": f"*Deleting <t:{get_current_timestamp() + 595}:R>*", "inline": False}])
+    footer = [
+        {
+            "name": "Added By",
+            "value": f"<@{user_id}> <t:{added_at}:R>",
+            "inline": False
+        },
+        {
+            "name": "ㅤ",
+            "value": f"*Deleting <t:{get_current_timestamp() + 595}:R>*",
+            "inline": False
+        }
+    ]
+    embed.fields = embed.fields + footer
 
     await ctx.send(embed=embed, delete_after=600)
 
