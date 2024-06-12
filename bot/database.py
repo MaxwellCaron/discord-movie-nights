@@ -77,7 +77,7 @@ def update_entry(table_name: str, media: Movie | Show) -> None:
         '''.format(table_name)
 
     commit_query(query, (released(media.release_timestamp), media.release_timestamp, media.runtime,
-                         media.ratings.imdb.rating, media.simkl_id))
+                         media.imdb_rating, media.simkl_id))
 
 
 ###########################################
