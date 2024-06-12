@@ -61,13 +61,13 @@ async def id_to_object(media_type: str, simkl_id: int) -> Movie | Show | None:
 
     try:
         if media_type == "tv":
-            show = Show.model_validate(data)
-            log_media(show)
-            return show
+            media = Show.model_validate(data)
         else:
-            movie = Movie.model_validate(data)
-            log_media(movie)
-            return movie
+            media = Movie.model_validate(data)
+
+        log_media(media)
+        return media
+
     except pydantic.ValidationError as e:
         logger.error(f"{type(e)=}\n{e=}")
         return

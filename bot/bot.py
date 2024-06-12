@@ -75,7 +75,7 @@ async def update_unreleased_media(media_type: str):
 
     for _id, in unreleased_ids:
         media: Movie | Show = await simkl.id_to_object(media_type, _id)
-        db.update_entry(media_type, _id, media.runtime, media.imdb_rating)
+        db.update_entry(media_type, media)
 
 
 ###########################################

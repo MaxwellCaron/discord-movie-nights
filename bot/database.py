@@ -1,6 +1,9 @@
+import os
 import sqlite3
 from contextlib import contextmanager
 from validation import Movie, Show, convert_minutes, get_current_timestamp,  printable_title
+
+DATABASE_PATH = f"{os.getcwd()}/list.db"
 
 
 ###########################################
@@ -9,7 +12,7 @@ from validation import Movie, Show, convert_minutes, get_current_timestamp,  pri
 
 @contextmanager
 def get_connection():
-    conn = sqlite3.connect('list.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     try:
         yield conn
     finally:
@@ -66,14 +69,15 @@ def get_unreleased_ids(table_name: str) -> list | None:
     return ids
 
 
-def update_entry(table_name: str, simkl_id: int, runtime: int, imdb_rating: float | int) -> None:
+def update_entry(table_name: str, media: Movie | Show) -> None:
     query = '''
             UPDATE {}
-            SET runtime = ?, rating = ?
+            SET isReleased = ?, releaseTime = ?, runtime = ?, rating = ?
             WHERE simklID = ?;
         '''.format(table_name)
 
-    commit_query(query, (runtime, imdb_rating, simkl_id))
+    commit_query(query, (released(media.release_timestamp), media.release_timestamp, media.runtime,
+                         media.ratings.imdb.rating, media.simkl_id))
 
 
 ###########################################
