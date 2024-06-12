@@ -1,12 +1,17 @@
 import json
+import os
+
 import aiohttp
 import pydantic
 from log import get_logger
+from dotenv import load_dotenv
 from cachetools import TTLCache
 from validation import Movie, Show
 
+load_dotenv()
+
 API_URL = "https://api.simkl.com"
-CLIENT_ID = "CHANGE_ME"
+CLIENT_ID = os.getenv("SIMKL_CLIENT_ID")
 cache = TTLCache(maxsize=100, ttl=300)
 logger = get_logger("Simkl")
 

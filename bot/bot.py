@@ -1,3 +1,4 @@
+import os
 import re
 import simkl
 import asyncio
@@ -5,13 +6,17 @@ import sqlite3
 import interactions
 import database as db
 from log import get_logger
+from dotenv import load_dotenv
 from validation import Movie, Show, get_current_timestamp
 from embeds import WatchedEmbed, ToWatchEmbed, MoviePreviewEmbed, TVPreviewEmbed
 from interactions import slash_command, Intents, SlashContext, AutocompleteContext, Client, listen, slash_option, \
     OptionType, SlashCommandChoice
 
-WATCHED_MESSAGE_ID = "CHANGE_ME"
-MAIN_MESSAGE_ID = "CHANGE_ME"
+load_dotenv()
+
+WATCHED_MESSAGE_ID = 1245925656592908299
+MAIN_MESSAGE_ID = 1245925657628905472
+BOT_ID = os.getenv("DISCORD_BOT_ID")
 logger = get_logger("DiscordBot")
 bot = Client(
     intents=Intents.DEFAULT,
@@ -343,4 +348,4 @@ async def update_embeds_function(ctx: SlashContext):
 
 
 if __name__ == '__main__':
-    bot.start("CHANGE_ME")
+    bot.start(BOT_ID)
