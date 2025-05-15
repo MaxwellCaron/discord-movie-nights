@@ -157,7 +157,7 @@ async def add_function(ctx: SlashContext, media_type: str, title: int):
 
     await asyncio.gather(
         update_to_watch_message(ctx.channel),
-        ctx.send(embed=create_preview_embed(media, 0x87ff00), ephemeral=True)
+        ctx.send(embed=create_preview_embed(media, 0x87ff00))
     )
 
 
