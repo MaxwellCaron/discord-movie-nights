@@ -130,10 +130,10 @@ def create_preview_embed(media: Movie | Show, color) -> interactions.Embed:
 @media_type_option()
 @title_option()
 async def add_function(ctx: SlashContext, media_type: str, title: int):
-    await ctx.defer(ephemeral=True)
+    await ctx.defer()
 
     if db.entry_exists(media_type, title):
-        await ctx.send(f"# 🗍 Already on the list.", ephemeral=True)
+        await ctx.send(f"# 🗍 Already on the list.", delete_after=10)
         return
 
     media = await simkl.id_to_object(media_type, title)
@@ -143,7 +143,7 @@ async def add_function(ctx: SlashContext, media_type: str, title: int):
             "tv": "Show"
         }
 
-        await ctx.send(f"# 🛇 {pretty_map[media_type]} cannot be found.", ephemeral=True)
+        await ctx.send(f"# 🛇 {pretty_map[media_type]} cannot be found.", delete_after=10)
         return
 
     user_name: str = str(ctx.author.username)
